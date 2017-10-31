@@ -1,5 +1,5 @@
 'use strict'
-
+const util = require('util')
 const fs = require('fs')
 
 class Employee {
@@ -10,11 +10,17 @@ class Employee {
     this.salary = salary;
   }
 
-  static parseFromFilePath(path) {
-    let file = JSON.parse(fs.readFileSync(path))
-    return new Employee(file.name, file.title, file.salary)
 
+
+  static parseFromFilePath(path) {
+    let dat;
+    let prom = new Promise((resolve, reject) => {
+        resolve(fs.readFileSync(path).toString())
+      },
+      300)
+    return prom
   }
+
   promote(title, num) {
     this.title = title
     this.salary += num
